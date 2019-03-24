@@ -1,12 +1,32 @@
-import "python2-pygame"
+class Game:
+    def __init__(self):
+        self.state = None
+        self.score = None
 
-pygame.init()
-screen = pygame.display.set_mode((400, 300))
-done = False
+    def play(self, client, port):
+        self.state = "play"
+        request = "POST /game=play HTTP/1.1\r\nHost:%s\r\n\r\n" % port
+        client.send(request.encode())
 
-while not done:
-        for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                        done = True
-        
-        pygame.display.flip()
+    def stop(self, client, port):
+        self.state = "stop"
+        request = "POST /game=stop HTTP/1.1\r\nHost:%s\r\n\r\n" % port
+        client.send(request.encode())
+
+    def check_if_done(self, client, port):
+        request = "POST /game_check_if_done=? HTTP/1.1\r\nHost:%s\r\n\r\n" % port
+        client.send(request.encode())
+        response = client.recv(port)
+        http_response = response.decode("utf-8").replace("\r", "")
+        listed_response = http_response.split("\n")
+        if listed_response[5] == "yes":
+            return True
+        return False
+
+    def get_score(self, client, port):
+        request = "POST /get_score=? HTTP/1.1\r\nHost:%s\r\n\r\n" % port
+        client.send(request.encode())
+        response = client.recv(port)
+        http_response = response.decode("utf-8").replace("\r", "")
+        listed_response = http_response.split("\n")
+        return listed_response[5]
