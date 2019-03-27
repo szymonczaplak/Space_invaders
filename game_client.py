@@ -35,7 +35,7 @@ def update(client, port, p, e):
 
 def instrukcja():
     pygame.init()
-    screen = pygame.display.set_mode((300, 300))
+    screen = pygame.display.set_mode((400, 350))
     screen.fill((0, 0, 0))
     screen.blit(INSTRUKCJA, (0, 0))
     pygame.display.flip()
@@ -158,7 +158,7 @@ while (1):
             if event.type == pygame.QUIT:
                 done = True
 
-        #done = g.check_if_done(client, target_port)
+        done = (p.life[p.client_index] <= 0)
 
 
         if pressed[pygame.K_UP]:
@@ -186,13 +186,14 @@ while (1):
         clock.tick(120)
 
     time_txt = small_font.render("time: " + str(time.time() - game_start_time), 20, (12, 225, 225))
-    g.stop(client, target_port)
+    #g.stop(client, target_port)
     screen.fill((0, 0, 0))
     pygame.font.init()
     myfont = pygame.font.SysFont('monospace', 30)
-    textsurface = myfont.render('GAME OVER' + g.get_score(client, target_port), 1, (12, 0, 225))
+    #textsurface = myfont.render('GAME OVER' + g.get_score(client, target_port), 1, (12, 0, 225))
+    textsurface = myfont.render('GAME OVER', 1, (12, 0, 225))
     screen.blit(textsurface, (90, 125))
     screen.blit(time_txt, (198, 0))
-    screen.blit(score_txt, (0, 0))
+    #screen.blit(score_txt, (0, 0))
     pygame.display.flip()
     time.sleep(4)
