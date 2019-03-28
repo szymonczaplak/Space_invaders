@@ -16,12 +16,15 @@ from bonus import Bonus
 def update(client, port, p, e):
     request = "POST /update_status=? HTTP/1.1\r\nHost:%s\r\n\r\n" % port
     client.send(request.encode())
-    response = client.recv(1212)
+    response = client.recv(14000)
     http_response = response.decode("utf-8").replace("\r", "")
     listed_response = http_response.split("\n")
+    print(listed_response)
+    print(len(listed_response))
+    print("\n\n")
     try:
         if listed_response[5] != "OK":
-            print(listed_response)
+            #print(listed_response)
             update(client, port, p, e)
             return
     except:
@@ -30,7 +33,6 @@ def update(client, port, p, e):
     p.get_players_update(listed_response[6:11])
     e.get_enemies_update(listed_response[11:15])
     b.get_bullet_update(listed_response[15:18])
-    print(listed_response)
 
 
 def instrukcja():
@@ -142,7 +144,6 @@ while (1):
     #g.play(client, target_port)
     while not done:
         screen.fill((0, 0, 0))
-        print("imhere")
         #p.get_players_update(client, target_port)
         update(client, target_port, p, e)
        # m.get_meteors_update(client, target_port)

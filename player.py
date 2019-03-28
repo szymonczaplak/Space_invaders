@@ -25,8 +25,6 @@ class Players:
             print(listed_response)
             exit(-1)
 
-        print("MY INDEX IS " + str(self.client_index))
-        print(self.client_index)
 
 
     def get_players_update(self, list_):
@@ -35,9 +33,6 @@ class Players:
         self.life = list(map(int, list_[2].split()))
         self.weapon = list(map(int, list_[3].split()))
         self.index = list(map(int, list_[4].split()))
-
-
-        print(self.x, self.y, self.life)
 
     def bullet_create(self, client, port):
         if int(round(time.time() * 1000)) - self.last_bullet_time > 120:

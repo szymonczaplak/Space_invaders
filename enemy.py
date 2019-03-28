@@ -8,8 +8,6 @@ class Enemies:
         self.ENEMY_LOW = pygame.image.load('enemy_low.png')
 
     def get_enemies_update(self, list_):
-        print("GET ENEMY UPDATE")
-        print(list_)
         self.x = list(map(int, list_[0].split()))
         self.y = list(map(int, list_[1].split()))
         self.life = list(map(int, list_[2].split()))
