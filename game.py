@@ -5,12 +5,12 @@ class Game:
 
     def play(self, client, port):
         self.state = "play"
-        request = "POST /game=play HTTP/1.1\r\nHost:%s\r\n\r\n" % port
+        request = "game=play\n" % port
         client.send(request.encode())
 
     def stop(self, client, port):
         self.state = "stop"
-        request = "POST /game=stop HTTP/1.1\r\nHost:%s\r\n\r\n" % port
+        request = "STOP=?\n"
         client.send(request.encode())
 
     def check_if_done(self, client, port):

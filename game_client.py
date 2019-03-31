@@ -14,7 +14,7 @@ from bonus import Bonus
 
 
 def update(client, port, p, e):
-    request = "POST /update_status=? HTTP/1.1\r\nHost:%s\r\n\r\n" % port
+    request = "update_status=?\n"
     client.send(request.encode())
     response = client.recv(14000)
     http_response = response.decode("utf-8").replace("\r", "")
@@ -23,16 +23,17 @@ def update(client, port, p, e):
     print(len(listed_response))
     print("\n\n")
     try:
-        if listed_response[5] != "OK":
+        if listed_response[0] != "OK":
             #print(listed_response)
             update(client, port, p, e)
             return
     except:
         update(client, port, p, e)
         return
-    p.get_players_update(listed_response[6:11])
-    e.get_enemies_update(listed_response[11:15])
-    b.get_bullet_update(listed_response[15:18])
+    p.get_players_update(listed_response[1:6])
+    e.get_enemies_update(listed_response[6:10])
+    b.get_bullet_update(listed_response[10:13])
+    bo.get_bonuses_update(listed_response[13:15])
 
 
 def instrukcja():
@@ -176,7 +177,7 @@ while (1):
         pygame.display.update()
 
         #m.draw(screen)
-        #bo.draw(screen)
+        bo.draw(screen)
 
         #score_txt = small_font.render("Score: " + g.get_score(client, target_port))
         #screen.blit(score_txt, (0, 0))
@@ -187,7 +188,7 @@ while (1):
         clock.tick(120)
 
     time_txt = small_font.render("time: " + str(time.time() - game_start_time), 20, (12, 225, 225))
-    #g.stop(client, target_port)
+    g.stop(client, target_port)
     screen.fill((0, 0, 0))
     pygame.font.init()
     myfont = pygame.font.SysFont('monospace', 30)

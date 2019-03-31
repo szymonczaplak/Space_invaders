@@ -12,7 +12,7 @@ class Bullets:
     def draw(self, pygame, screen):
         for i in range(len(self.x)):
             color = (0, 128, 125)
-            if self.owner[i] == 0:
+            if self.owner[i] == -1:
                 color = (125, 0, 100)
             pygame.draw.lines(screen, color, True, [(self.x[i], self.y[i]),
                                                     (self.x[i], self.y[i] - 5)], 2)
